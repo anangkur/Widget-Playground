@@ -51,7 +51,7 @@ class EditTextActivity : AppCompatActivity() {
         binding.editText.setAdapter(adapter)
 
         binding.editText.textChanges()
-            .debounce(300)
+            .debounce(1000)
             .onEach { process(it?.toString()) }
             .launchIn(lifecycleScope)
     }
