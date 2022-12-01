@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anangkur.widgetplayground.databinding.ItemDynamicGridBinding
+import com.anangkur.widgetplayground.model.FbReactions
 import com.anangkur.widgetplayground.model.Post
 import com.anangkur.widgetplayground.utils.extensions.gone
 import com.anangkur.widgetplayground.utils.extensions.loadImage
@@ -36,6 +37,9 @@ class DynamicGridAdapter : RecyclerView.Adapter<DynamicGridAdapter.ViewHolder>()
                     hideAllImages()
                 }
             }
+            binding.buttonReact.setReactions(*FbReactions.reactions)
+            binding.buttonReact.defaultReaction = FbReactions.defaultReact
+            binding.buttonReact.setEnableReactionTooltip(true)
         }
 
         private fun hideAllImages() {
