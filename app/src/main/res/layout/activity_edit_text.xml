@@ -5,15 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context=".MainActivity">
+    tools:context=".edittext.EditTextActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_edit_text"
+    <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+        android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go To EditText"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <com.anangkur.widgetplayground.richlinkpreview.RichLinkView
+        android:id="@+id/rich_link_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
