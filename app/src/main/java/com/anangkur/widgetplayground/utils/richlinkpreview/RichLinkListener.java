@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.richlinkpreview;
+package com.anangkur.widgetplayground.utils.richlinkpreview;
 
 import android.view.View;
 

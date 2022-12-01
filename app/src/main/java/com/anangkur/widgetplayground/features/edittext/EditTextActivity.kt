@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.edittext
+package com.anangkur.widgetplayground.features.edittext
 
 import android.content.Context
 import android.content.Intent
@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.anangkur.widgetplayground.databinding.ActivityEditTextBinding
-import com.anangkur.widgetplayground.extensions.*
-import com.anangkur.widgetplayground.richlinkpreview.ViewListener
+import com.anangkur.widgetplayground.utils.richlinkpreview.ViewListener
 import com.anangkur.widgetplayground.utils.SpaceTokenizer
+import com.anangkur.widgetplayground.utils.extensions.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -61,7 +61,8 @@ class EditTextActivity : AppCompatActivity() {
         if (links.isNotEmpty()) {
             binding.richLinkView.setLink(
                 links.first().normalizeLink(),
-                object : ViewListener {
+                object :
+                    ViewListener {
                     override fun onSuccess(status: Boolean) {
                         runOnUiThread { binding.richLinkView.visible() }
                     }

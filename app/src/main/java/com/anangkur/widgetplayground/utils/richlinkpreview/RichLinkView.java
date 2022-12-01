@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.richlinkpreview;
+package com.anangkur.widgetplayground.utils.richlinkpreview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,15 +20,14 @@ import com.squareup.picasso.Picasso;
  * Created by ponna on 16-01-2018.
  */
 
-public class RichLinkViewSkype extends RelativeLayout {
+public class RichLinkView extends RelativeLayout {
 
     private View view;
     Context context;
     private MetaData meta;
 
-    RelativeLayout relativeLayout;
+    LinearLayout linearLayout;
     ImageView imageView;
-    ImageView imageViewFavIcon;
     TextView textViewTitle;
     TextView textViewDesp;
     TextView textViewUrl;
@@ -40,39 +39,43 @@ public class RichLinkViewSkype extends RelativeLayout {
     private RichLinkListener richLinkListener;
 
 
-    public RichLinkViewSkype(Context context) {
+    public RichLinkView(Context context) {
         super(context);
         this.context = context;
     }
 
-    public RichLinkViewSkype(Context context, AttributeSet attrs) {
+    public RichLinkView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
 
-    public RichLinkViewSkype(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RichLinkView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public RichLinkViewSkype(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public RichLinkView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
     }
 
-    public void initView() {
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+    }
 
-        if(findRelativeLayoutChild() != null) {
-            this.view = findRelativeLayoutChild();
+
+    public void initView() {
+        if(findLinearLayoutChild() != null) {
+            this.view = findLinearLayoutChild();
         } else  {
             this.view = this;
-            inflate(context, R.layout.skype_link_layout,this);
+            inflate(context, R.layout.link_layout,this);
         }
 
-        relativeLayout = findViewById(R.id.rich_link_card);
+        linearLayout = findViewById(R.id.rich_link_card);
         imageView = findViewById(R.id.rich_link_image);
-        imageViewFavIcon = findViewById(R.id.rich_link_favicon);
         textViewTitle = findViewById(R.id.rich_link_title);
         textViewDesp = findViewById(R.id.rich_link_desp);
         textViewUrl = findViewById(R.id.rich_link_url);
@@ -85,15 +88,6 @@ public class RichLinkViewSkype extends RelativeLayout {
             Picasso.get()
                     .load(meta.getImageurl())
                     .into(imageView);
-        }
-
-        if(meta.getFavicon().equals("") || meta.getFavicon().isEmpty()) {
-            imageViewFavIcon.setVisibility(GONE);
-        } else {
-            imageViewFavIcon.setVisibility(VISIBLE);
-            Picasso.get()
-                    .load(meta.getFavicon())
-                    .into(imageViewFavIcon);
         }
 
         if(meta.getTitle().isEmpty() || meta.getTitle().equals("")) {
@@ -116,7 +110,7 @@ public class RichLinkViewSkype extends RelativeLayout {
         }
 
 
-        relativeLayout.setOnClickListener(new OnClickListener() {
+        linearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isDefaultClick) {
@@ -133,14 +127,24 @@ public class RichLinkViewSkype extends RelativeLayout {
 
     }
 
+
     private void richLinkClicked() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(main_url));
         context.startActivity(intent);
     }
 
-    protected RelativeLayout findRelativeLayoutChild() {
+
+    public void setDefaultClickListener(boolean isDefault) {
+        isDefaultClick = isDefault;
+    }
+
+    public void setClickListener(RichLinkListener richLinkListener1) {
+        richLinkListener = richLinkListener1;
+    }
+
+    protected LinearLayout findLinearLayoutChild() {
         if (getChildCount() > 0 && getChildAt(0) instanceof LinearLayout) {
-            return (RelativeLayout) getChildAt(0);
+            return (LinearLayout) getChildAt(0);
         }
         return null;
     }
@@ -154,24 +158,13 @@ public class RichLinkViewSkype extends RelativeLayout {
         return meta;
     }
 
-
-    public void setDefaultClickListener(boolean isDefault) {
-        isDefaultClick = isDefault;
-    }
-
-    public void setClickListener(RichLinkListener richLinkListener1) {
-        richLinkListener = richLinkListener1;
-    }
-
-
     public void setLink(String url, final ViewListener viewListener) {
         main_url = url;
         RichPreview richPreview = new RichPreview(new ResponseListener() {
             @Override
             public void onData(MetaData metaData) {
                 meta = metaData;
-
-                if(meta.getTitle().isEmpty() || meta.getTitle().equals("")) {
+                if(!meta.getTitle().isEmpty() || !meta.getTitle().equals("")) {
                     viewListener.onSuccess(true);
                 }
 
@@ -185,6 +178,5 @@ public class RichLinkViewSkype extends RelativeLayout {
         });
         richPreview.getPreview(url);
     }
-
 
 }

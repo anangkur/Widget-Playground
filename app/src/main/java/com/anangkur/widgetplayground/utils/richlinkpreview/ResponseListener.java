@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.richlinkpreview;
+package com.anangkur.widgetplayground.utils.richlinkpreview;
 
 /**
  * Created by ponna on 16-01-2018.

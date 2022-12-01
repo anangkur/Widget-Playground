@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.extensions
+package com.anangkur.widgetplayground.utils.extensions
 
 import android.text.Editable
 import android.text.TextWatcher

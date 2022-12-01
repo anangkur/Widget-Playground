@@ -1,16 +1,17 @@
-package com.anangkur.widgetplayground.richlinkpreview;
+package com.anangkur.widgetplayground.utils.richlinkpreview;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Spannable;
-import android.text.style.URLSpan;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.anangkur.widgetplayground.R;
 import com.squareup.picasso.Picasso;
@@ -19,18 +20,18 @@ import com.squareup.picasso.Picasso;
  * Created by ponna on 16-01-2018.
  */
 
-public class RichLinkViewTelegram extends RelativeLayout {
+public class RichLinkViewSkype extends RelativeLayout {
 
     private View view;
     Context context;
     private MetaData meta;
 
-    LinearLayout linearLayout;
+    RelativeLayout relativeLayout;
     ImageView imageView;
+    ImageView imageViewFavIcon;
     TextView textViewTitle;
     TextView textViewDesp;
     TextView textViewUrl;
-    TextView textViewOriginalUrl;
 
     private String main_url;
 
@@ -39,45 +40,43 @@ public class RichLinkViewTelegram extends RelativeLayout {
     private RichLinkListener richLinkListener;
 
 
-    public RichLinkViewTelegram(Context context) {
+    public RichLinkViewSkype(Context context) {
         super(context);
         this.context = context;
     }
 
-    public RichLinkViewTelegram(Context context, AttributeSet attrs) {
+    public RichLinkViewSkype(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
     }
 
-    public RichLinkViewTelegram(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RichLinkViewSkype(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
     }
 
-    public RichLinkViewTelegram(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public RichLinkViewSkype(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
     }
 
     public void initView() {
 
-        if(findLinearLayoutChild() != null) {
-            this.view = findLinearLayoutChild();
+        if(findRelativeLayoutChild() != null) {
+            this.view = findRelativeLayoutChild();
         } else  {
             this.view = this;
-            inflate(context, R.layout.telegram_link_layout,this);
+            inflate(context, R.layout.skype_link_layout,this);
         }
 
-        linearLayout = findViewById(R.id.rich_link_card);
+        relativeLayout = findViewById(R.id.rich_link_card);
         imageView = findViewById(R.id.rich_link_image);
+        imageViewFavIcon = findViewById(R.id.rich_link_favicon);
         textViewTitle = findViewById(R.id.rich_link_title);
         textViewDesp = findViewById(R.id.rich_link_desp);
         textViewUrl = findViewById(R.id.rich_link_url);
 
-        textViewOriginalUrl = findViewById(R.id.rich_link_original_url);
-
-        textViewOriginalUrl.setText(main_url);
-        removeUnderlines((Spannable)textViewOriginalUrl.getText());
 
         if(meta.getImageurl().equals("") || meta.getImageurl().isEmpty()) {
             imageView.setVisibility(GONE);
@@ -86,6 +85,15 @@ public class RichLinkViewTelegram extends RelativeLayout {
             Picasso.get()
                     .load(meta.getImageurl())
                     .into(imageView);
+        }
+
+        if(meta.getFavicon().equals("") || meta.getFavicon().isEmpty()) {
+            imageViewFavIcon.setVisibility(GONE);
+        } else {
+            imageViewFavIcon.setVisibility(VISIBLE);
+            Picasso.get()
+                    .load(meta.getFavicon())
+                    .into(imageViewFavIcon);
         }
 
         if(meta.getTitle().isEmpty() || meta.getTitle().equals("")) {
@@ -108,7 +116,7 @@ public class RichLinkViewTelegram extends RelativeLayout {
         }
 
 
-        linearLayout.setOnClickListener(new OnClickListener() {
+        relativeLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(isDefaultClick) {
@@ -130,9 +138,9 @@ public class RichLinkViewTelegram extends RelativeLayout {
         context.startActivity(intent);
     }
 
-    protected LinearLayout findLinearLayoutChild() {
+    protected RelativeLayout findRelativeLayoutChild() {
         if (getChildCount() > 0 && getChildAt(0) instanceof LinearLayout) {
-            return (LinearLayout) getChildAt(0);
+            return (RelativeLayout) getChildAt(0);
         }
         return null;
     }
@@ -154,6 +162,7 @@ public class RichLinkViewTelegram extends RelativeLayout {
     public void setClickListener(RichLinkListener richLinkListener1) {
         richLinkListener = richLinkListener1;
     }
+
 
     public void setLink(String url, final ViewListener viewListener) {
         main_url = url;
@@ -177,16 +186,5 @@ public class RichLinkViewTelegram extends RelativeLayout {
         richPreview.getPreview(url);
     }
 
-    private static void removeUnderlines(Spannable p_Text) {
-        URLSpan[] spans = p_Text.getSpans(0, p_Text.length(), URLSpan.class);
-
-        for(URLSpan span:spans) {
-            int start = p_Text.getSpanStart(span);
-            int end = p_Text.getSpanEnd(span);
-            p_Text.removeSpan(span);
-            span = new URLSpanNoUnderline(span.getURL());
-            p_Text.setSpan(span, start, end, 0);
-        }
-    }
 
 }

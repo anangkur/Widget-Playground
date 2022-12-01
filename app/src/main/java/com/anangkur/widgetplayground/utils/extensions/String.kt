@@ -1,4 +1,4 @@
-package com.anangkur.widgetplayground.extensions
+package com.anangkur.widgetplayground.utils.extensions
 
 fun String.normalizeLink(): String {
     return if (contains("https://") || contains("http://")) {
