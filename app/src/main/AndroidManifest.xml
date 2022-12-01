@@ -15,7 +15,14 @@
         android:theme="@style/Theme.WidgetPlayground"
         tools:targetApi="31">
         <activity
-            android:name=".EditTextActivity"
+            android:name=".features.dynamicgridlist.DynamicGridListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".features.edittext.EditTextActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
