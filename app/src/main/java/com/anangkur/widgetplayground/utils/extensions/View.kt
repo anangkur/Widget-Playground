@@ -3,6 +3,7 @@ package com.anangkur.widgetplayground.utils.extensions
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -27,4 +28,12 @@ fun View.visible() {
 
 fun View.gone() {
     visibility = View.GONE
+}
+
+fun Button.enable(isEnable: Boolean) {
+    this.isEnabled = isEnable
+}
+
+fun EditText.clear() {
+    setText("")
 }

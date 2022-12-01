@@ -3,6 +3,7 @@ package com.anangkur.widgetplayground
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.anangkur.widgetplayground.databinding.ActivityMainBinding
+import com.anangkur.widgetplayground.features.comment.CommentActivity
 import com.anangkur.widgetplayground.features.dynamicgridlist.DynamicGridListActivity
 import com.anangkur.widgetplayground.features.edittext.EditTextActivity
 
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonGridDynamic.setOnClickListener {
             DynamicGridListActivity.startActivity(this)
+        }
+
+        binding.buttonComment.setOnClickListener {
+            CommentActivity.startActivity(this)
         }
     }
 }
