@@ -71,6 +71,8 @@ class EditTextActivity : AppCompatActivity() {
                     }
                 },
             )
+        } else {
+            binding.richLinkView.gone()
         }
     }
 
